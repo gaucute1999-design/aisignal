@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>AI Signal V5</title>
+
+<style>
+
+body{
+background:#000;
+margin:0;
+font-family:Arial;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+color:white;
+}
+
+.box{
+width:350px;
+padding:20px;
+border-radius:20px;
+border:2px solid #00e5ff;
+box-shadow:0 0 30px #00e5ff;
+text-align:center;
+}
+
+.title{
+font-size:30px;
+color:#00e5ff;
+margin-bottom:15px;
+}
+
+.status{
+font-size:18px;
+margin-top:10px;
+}
+
+.percent{
+font-size:60px;
+margin:20px 0;
+}
+
+.signal{
+font-size:45px;
+font-weight:bold;
+margin-top:20px;
+}
+
+button{
+padding:12px 30px;
+font-size:20px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+background:#00e5ff;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<div class="title">
+AI SIGNAL BOT
+</div>
+
+<div class="status" id="status">
+Ready
+</div>
+
+<div class="percent" id="percent">
+0%
+</div>
+
+<div class="signal" id="signal"></div>
+
+<br><br>
+
+<button onclick="startScan()">
+START SCAN
+</button>
+
+</div>
+
+<script>
+
+function startScan(){
+
+let p=0;
+
+document.getElementById("signal").innerHTML="";
+
+let timer=setInterval(function(){
+
+p++;
+
+document.getElementById("status").innerHTML=
+"Analyzing Market...";
+
+document.getElementById("percent").innerHTML=
+p+"%";
+
+if(p>=100){
+
+clearInterval(timer);
+
+let result=Math.random();
+
+if(result>0.5){
+
+document.getElementById("signal").innerHTML=
+"<span style='color:lime'>CALL ↑</span>";
+
+}else{
+
+document.getElementById("signal").innerHTML=
+"<span style='color:red'>PUT ↓</span>";
+
+}
+
+document.getElementById("status").innerHTML=
+"Signal Found";
+
+}
+
+},30);
+
+}
+
+</script>
+
+</body>
+</html>
