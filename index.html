@@ -2,61 +2,59 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>AI Signal V5</title>
+<title>AI Signal Bot</title>
 
 <style>
 
 body{
-background:#000;
-margin:0;
-font-family:Arial;
+background:#0a0a0a;
+font-family:Arial,sans-serif;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
+margin:0;
 color:white;
 }
 
-.box{
+.card{
 width:350px;
-padding:20px;
+padding:25px;
 border-radius:20px;
 border:2px solid #00e5ff;
-box-shadow:0 0 30px #00e5ff;
+box-shadow:0 0 20px #00e5ff;
 text-align:center;
 }
 
 .title{
-font-size:30px;
+font-size:28px;
+font-weight:bold;
 color:#00e5ff;
 margin-bottom:15px;
 }
 
-.status{
-font-size:18px;
-margin-top:10px;
-}
-
-.percent{
+.timer{
 font-size:60px;
-margin:20px 0;
+margin:15px 0;
 }
 
 .signal{
-font-size:45px;
+font-size:42px;
 font-weight:bold;
-margin-top:20px;
+margin-top:15px;
 }
 
-button{
-padding:12px 30px;
-font-size:20px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-background:#00e5ff;
+.conf{
+font-size:24px;
+margin-top:10px;
+}
+
+.status{
+font-size:18px;
+color:#ccc;
+margin-top:10px;
 }
 
 </style>
@@ -64,74 +62,87 @@ background:#00e5ff;
 
 <body>
 
-<div class="box">
+<div class="card">
 
 <div class="title">
 AI SIGNAL BOT
 </div>
 
+<div>BTC/USDT</div>
+
+<div class="timer" id="timer">
+60
+</div>
+
+<div class="signal" id="signal">
+...
+</div>
+
+<div class="conf" id="confidence">
+Waiting...
+</div>
+
 <div class="status" id="status">
-Ready
+Analyzing market...
 </div>
-
-<div class="percent" id="percent">
-0%
-</div>
-
-<div class="signal" id="signal"></div>
-
-<br><br>
-
-<button onclick="startScan()">
-START SCAN
-</button>
 
 </div>
 
 <script>
 
-function startScan(){
+let time = 60;
+let signalShown = false;
 
-let p=0;
+function newRound(){
 
-document.getElementById("signal").innerHTML="";
+time = 60;
+signalShown = false;
 
-let timer=setInterval(function(){
-
-p++;
-
-document.getElementById("status").innerHTML=
-"Analyzing Market...";
-
-document.getElementById("percent").innerHTML=
-p+"%";
-
-if(p>=100){
-
-clearInterval(timer);
-
-let result=Math.random();
-
-if(result>0.5){
-
-document.getElementById("signal").innerHTML=
-"<span style='color:lime'>CALL ↑</span>";
-
-}else{
-
-document.getElementById("signal").innerHTML=
-"<span style='color:red'>PUT ↓</span>";
+document.getElementById("signal").innerHTML = "...";
+document.getElementById("confidence").innerHTML = "Waiting...";
+document.getElementById("status").innerHTML = "Analyzing market...";
 
 }
 
-document.getElementById("status").innerHTML=
+function tick(){
+
+time--;
+
+document.getElementById("timer").innerHTML = time;
+
+if(time <= 20 && signalShown === false){
+
+signalShown = true;
+
+let confidence =
+Math.floor(Math.random()*36)+65;
+
+let buySell =
+Math.random() > 0.5 ? "BUY ↑" : "SELL ↓";
+
+let color =
+buySell.includes("BUY") ? "#00ff66" : "#ff4444";
+
+document.getElementById("signal").innerHTML =
+'<span style="color:'+color+'">'+buySell+'</span>';
+
+document.getElementById("confidence").innerHTML =
+confidence + "% Confidence";
+
+document.getElementById("status").innerHTML =
 "Signal Found";
 
 }
 
-},30);
+if(time <= 0){
+
+newRound();
 
 }
+
+}
+
+setInterval(tick,1000);
 
 </script>
 
